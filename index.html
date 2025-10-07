@@ -1,116 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resume Generator</title>
-  <link rel="stylesheet" href="style.css">
-  
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-</h1>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
 <body>
-  <div class="container">
-    <!-- Input Form -->
-    <div id="form-section">
-      <h1>Resume Generator</h1>
-      <p>Fill out your details below to generate a professional resume.</p>
+    <div class="container">
+        <div id="selection-section">
+            <h1>Choose Your Resume Sections</h1>
+            <p>Select the sections you want to include in your resume.</p>
+            <div id="checkbox-container">
+                </div>
+            <button onclick="proceedToForm()">Build My Resume</button>
+        </div>
 
-      <label>Full Name</label>
-      <input type="text" id="name" placeholder="Your full name">
+        <div id="form-section" style="display:none;">
+            <h1>Resume Generator</h1>
+            <p>Fill out your details below.</p>
 
-      <label>Job Title / Field</label>
-      <input type="text" id="title" placeholder="Example: Information Technology">
+            <label>Full Name</label>
+            <input type="text" id="name" placeholder="Your full name">
+            <label>Job Title / Field</label>
+            <input type="text" id="title" placeholder="Example: Software Engineer">
+            <label>Contact Info</label>
+            <input type="text" id="contact" placeholder="Phone | Email | Location">
+            <input type="text" id="links" placeholder="LinkedIn / GitHub URLs">
 
-      <label>Contact Info</label>
-      <input type="text" id="contact" placeholder="Phone | Email | Location">
-      <input type="text" id="links" placeholder="LinkedIn / GitHub URLs">
+            <div class="form-group" data-section="profile">
+                <label>Professional Summary / Profile</label>
+                <textarea id="profile" placeholder="Write a short summary about yourself"></textarea>
+            </div>
+            <div class="form-group" data-section="career_goal">
+                <label>Career Goal / Objective</label>
+                <textarea id="career_goal" placeholder="Describe your career aspirations"></textarea>
+            </div>
+            <div class="form-group" data-section="experience">
+                <label>Experience</label>
+                <textarea id="experience" placeholder="Describe your work experience or internships"></textarea>
+            </div>
+            <div class="form-group" data-section="education">
+                <label>Education</label>
+                <textarea id="education" placeholder="Example: B.E. in Information Technology, Mumbai University"></textarea>
+            </div>
+            <div class="form-group" data-section="projects">
+                <label>Projects & Certifications</label>
+                <textarea id="projects" placeholder="List of projects and certifications with short descriptions"></textarea>
+            </div>
+            <div class="form-group" data-section="skills">
+                <label>Technical Skills & Tools</label>
+                <textarea id="skills" placeholder="List of your technical skills and tools"></textarea>
+            </div>
+             <div class="form-group" data-section="competencies">
+                <label>Core Competencies</label>
+                <textarea id="competencies" placeholder="List your main skills and competencies"></textarea>
+            </div>
+            <div class="form-group" data-section="ai">
+                <label>AI Tools Experience & Research</label>
+                <textarea id="ai" placeholder="Describe your AI tools experience and research"></textarea>
+            </div>
+            <div class="form-group" data-section="research">
+                <label>Research & Content Creation</label>
+                <textarea id="research" placeholder="List your research, content creation, and related work"></textarea>
+            </div>
+            <div class="form-group" data-section="languages">
+                <label>Languages</label>
+                <textarea id="languages" placeholder="e.g., English (Fluent), Hindi (Native)"></textarea>
+            </div>
+            <div class="form-group" data-section="hobbies">
+                <label>Hobbies & Interests</label>
+                <textarea id="hobbies" placeholder="List a few of your hobbies or interests"></textarea>
+            </div>
+            <div class="form-group" data-section="references">
+                <label>References / Recommendations</label>
+                <textarea id="references" placeholder="e.g., Available upon request, or list contact info"></textarea>
+            </div>
 
-      <label>Profile</label>
-      <textarea id="profile" placeholder="Write a short summary about yourself"></textarea>
+            <button onclick="generateResume()">Generate Resume</button>
+        </div>
 
-      <label>Education</label>
-      <textarea id="education" placeholder="Example: Bachelor of Engineering (B.E.) - Information Technology, Mumbai University"></textarea>
+        <div id="resume-section" style="display:none;">
+            <div id="resume">
+                <h2 id="r-name"></h2>
+                <p class="job-title" id="r-title"></p>
+                <p class="contact" id="r-contact"></p>
+                <p class="contact" id="r-links"></p>
+                <hr>
 
-      <label>Technical Skills & Tools</label>
-      <textarea id="skills" placeholder="List of your technical skills and tools"></textarea>
-
-      <label>AI Tools Experience & Research</label>
-      <textarea id="ai" placeholder="Describe your AI tools experience and research"></textarea>
-
-      <label>Projects & Certifications</label>
-      <textarea id="projects" placeholder="List of projects, certifications, and short descriptions"></textarea>
-
-      <label>Experience</label>
-      <textarea id="experience" placeholder="Describe your work experience or internships"></textarea>
-
-      <label>Research & Content Creation Activities</label>
-      <textarea id="research" placeholder="List your research, content creation, and related work"></textarea>
-
-      <label>Core Competencies</label>
-      <textarea id="competencies" placeholder="List your main skills and competencies"></textarea>
-
-      <button onclick="generateResume()">Generate Resume</button>
+                <section data-section="profile"><h3>PROFESSIONAL SUMMARY</h3><p id="r-profile"></p></section>
+                <section data-section="career_goal"><h3>CAREER GOAL</h3><p id="r-career_goal"></p></section>
+                <section data-section="experience"><h3>EXPERIENCE</h3><p id="r-experience"></p></section>
+                <section data-section="education"><h3>EDUCATION</h3><p id="r-education"></p></section>
+                <section data-section="projects"><h3>PROJECTS & CERTIFICATIONS</h3><p id="r-projects"></p></section>
+                <section data-section="skills"><h3>TECHNICAL SKILLS & TOOLS</h3><p id="r-skills"></p></section>
+                <section data-section="competencies"><h3>CORE COMPETENCIES</h3><p id="r-competencies"></p></section>
+                <section data-section="ai"><h3>AI TOOLS EXPERIENCE & RESEARCH</h3><p id="r-ai"></p></section>
+                <section data-section="research"><h3>RESEARCH & CONTENT CREATION</h3><p id="r-research"></p></section>
+                <section data-section="languages"><h3>LANGUAGES</h3><p id="r-languages"></p></section>
+                <section data-section="hobbies"><h3>HOBBIES & INTERESTS</h3><p id="r-hobbies"></p></section>
+                <section data-section="references"><h3>REFERENCES</h3><p id="r-references"></p></section>
+            </div>
+            <div class="buttons">
+                <button onclick="downloadPDF()">Download as PDF</button>
+                <button onclick="editAgain()">Start Over</button>
+            </div>
+        </div>
     </div>
-
-    <!-- Generated Resume -->
-    <div id="resume-section" style="display:none;">
-      <div id="resume">
-        <h2 id="r-name"></h2>
-        <p class="job-title" id="r-title"></p>
-        <p class="contact" id="r-contact"></p>
-        <p class="contact" id="r-links"></p>
-
-        <hr>
-
-        <section>
-          <h3>PROFILE</h3>
-          <p id="r-profile"></p>
-        </section>
-
-        <section>
-          <h3>EDUCATION</h3>
-          <p id="r-education"></p>
-       </section>
-
-        <section>
-          <h3>TECHNICAL SKILLS & TOOLS</h3>
-          <p id="r-skills"></p>
-        </section>
-
-        <section>
-          <h3>AI TOOLS EXPERIENCE & RESEARCH</h3>
-          <p id="r-ai"></p>
-        </section>
-
-        <section>
-          <h3>PROJECTS & CERTIFICATIONS</h3>
-          <p id="r-projects"></p>
-        </section>
-
-        <section>
-          <h3>EXPERIENCE</h3>
-          <p id="r-experience"></p>
-        </section>
-
-        <section>
-          <h3>RESEARCH & CONTENT CREATION ACTIVITIES</h3>
-          <p id="r-research"></p>
-        </section>
-
-        <section>
-          <h3>CORE COMPETENCIES</h3>
-          <p id="r-competencies"></p>
-        </section>
-      </div>
-
-      <div class="buttons">
-        <button onclick="downloadPDF()">Download as PDF</button>
-        <button onclick="editAgain()">Edit Again</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
